@@ -1,0 +1,200 @@
+# ==============================================================================
+# Fluento — Comprehensive .gitignore (Flutter, Android, iOS, Web, Desktop)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Flutter & Dart
+# ------------------------------------------------------------------------------
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+build/
+/build/
+**/build/
+coverage/
+/coverage/
+doc/api/
+**/doc/api/
+.widget_preview/
+
+# Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
+*.symbols
+*.map.json
+
+# ------------------------------------------------------------------------------
+# 2. Android
+# ------------------------------------------------------------------------------
+.gradle/
+**/.gradle/
+android/.gradle/
+android/.kotlin/
+android/captures/
+**/android/local.properties
+**/local.properties
+local.properties
+android/app/debug/
+android/app/profile/
+android/app/release/
+/android/app/debug
+/android/app/profile
+/android/app/release
+.cxx/
+**/android/.cxx/
+GeneratedPluginRegistrant.java
+**/GeneratedPluginRegistrant.java
+
+# JVM Crash logs & Profiler outputs
+hs_err_pid*.log
+replay_pid*.log
+**/hs_err_pid*.log
+**/replay_pid*.log
+
+# Android Keystores & Signing Secrets (NEVER COMMIT)
+*.jks
+*.keystore
+*.p12
+*.key
+key.properties
+**/android/key.properties
+key.json
+google-services.json
+**/android/app/google-services.json
+
+# ------------------------------------------------------------------------------
+# 3. iOS & macOS
+# ------------------------------------------------------------------------------
+ios/Pods/
+**/ios/Pods/
+macos/Pods/
+**/macos/Pods/
+.symlinks/
+**/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets/
+**/ios/Flutter/.last_build_id
+macos/Flutter/ephemeral/
+DerivedData/
+**/DerivedData/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+**/xcuserdata/
+
+# iOS Firebase & Certs
+GoogleService-Info.plist
+**/ios/Runner/GoogleService-Info.plist
+*.mobileprovision
+*.cer
+
+# ------------------------------------------------------------------------------
+# 4. Windows, Linux & Web Desktop builds
+# ------------------------------------------------------------------------------
+windows/flutter/ephemeral/
+**/windows/flutter/ephemeral/
+linux/flutter/ephemeral/
+**/linux/flutter/ephemeral/
+
+# ------------------------------------------------------------------------------
+# 5. Compiled Artifacts & Heavy Binaries (GitHub 100MB limit protection)
+# ------------------------------------------------------------------------------
+*.apk
+*.aab
+*.ap_
+*.dex
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.exe
+*.dll
+*.so
+*.dylib
+*.app
+*.dmg
+*.tar
+*.gz
+*.rar
+*.7z
+*.iso
+
+# ------------------------------------------------------------------------------
+# 6. Local Media & Recording Dumps (Speech Analysis temporary files)
+# ------------------------------------------------------------------------------
+temp_audio/
+**/temp_audio/
+recordings/
+**/recordings/
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.mp4
+*.mov
+*.webm
+
+# ------------------------------------------------------------------------------
+# 7. Local Databases & Persistence Files (Drift / SQLite / Cache)
+# ------------------------------------------------------------------------------
+*.sqlite
+*.sqlite-journal
+*.db
+*.db-shm
+*.db-wal
+
+# ------------------------------------------------------------------------------
+# 8. Environment & Secrets Configuration
+# ------------------------------------------------------------------------------
+.env
+.env.*
+*.env
+!.env.example
+credentials.json
+service_account.json
+
+# ------------------------------------------------------------------------------
+# 9. IDEs & Editors
+# ------------------------------------------------------------------------------
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+.idea_modules/
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# General OS & Editor clutter
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+*~
+.history
+.atom/
+.build/
+.buildlog/
+.svn/
+.swiftpm/

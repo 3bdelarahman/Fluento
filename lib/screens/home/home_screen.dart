@@ -176,7 +176,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              ...sampleArticles.take(3).map((article) {
+              ...appState.articles.take(3).map((article) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: ArticleCard(

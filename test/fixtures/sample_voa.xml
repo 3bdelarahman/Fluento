@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>VOA Learning English</title>
+    <link>https://learningenglish.voanews.com</link>
+    <description>English in a Day</description>
+    <item>
+      <title>Robots Help Farmers Pick Ripe Fruit</title>
+      <link>https://learningenglish.voanews.com/a/robots-help-farmers-pick-fruit/101.html</link>
+      <description>&lt;p&gt;Engineers in California have built new autonomous machines.&lt;/p&gt;&lt;p&gt;These specialized robots use computer vision cameras to identify ripe strawberries and apples in the field. &amp;quot;It saves significant labor,&amp;quot; said Dr. Smith. The farm owners were very pleased with the initial testing results.&lt;/p&gt;</description>
+      <pubDate>Wed, 15 Jan 2026 12:00:00 GMT</pubDate>
+      <author>VOA News</author>
+    </item>
+    <item>
+      <title>Level 1: Daily Habits in the City</title>
+      <link>https://learningenglish.voanews.com/a/daily-habits/102.html</link>
+      <description>&lt;p&gt;Many people start their morning with fresh coffee and fruit.&lt;/p&gt;&lt;p&gt;Walking to work helps you stay healthy and alert.&lt;/p&gt;</description>
+      <pubDate>Thu, 16 Jan 2026 09:30:00 GMT</pubDate>
+      <author>VOA Beginning English</author>
+    </item>
+  </channel>
+</rss>

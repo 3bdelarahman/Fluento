@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:fluento/theme/app_colors.dart';
 import 'package:fluento/widgets/article_card.dart';
-import 'package:fluento/data/sample_articles.dart';
+import 'package:fluento/providers/app_state.dart';
 import 'package:fluento/screens/articles/article_reader_screen.dart';
 
 class ArticleLibraryScreen extends StatefulWidget {
@@ -39,10 +40,15 @@ class _ArticleLibraryScreenState extends State<ArticleLibraryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredArticles = sampleArticles.where((article) {
-      final matchesSearch = article.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-          article.description.toLowerCase().contains(_searchQuery.toLowerCase());
-      final matchesCategory = _selectedCategory == 'All' || article.category == _selectedCategory;
+    final appState = context.watch<AppState>();
+    final allArticles = appState.articles;
+    final filteredArticles = allArticles.where((article) {
+      final matchesSearch = _searchQuery.isEmpty ||
+          article.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+          article.description.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+          article.content.toLowerCase().contains(_searchQuery.toLowerCase());
+      final matchesCategory = _selectedCategory == 'All' ||
+          article.category.toLowerCase() == _selectedCategory.toLowerCase();
       return matchesSearch && matchesCategory;
     }).toList();
 
@@ -147,26 +153,64 @@ class _ArticleLibraryScreenState extends State<ArticleLibraryScreen> {
 
             // Article list
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                itemCount: filteredArticles.length,
-                itemBuilder: (context, index) {
-                  final article = filteredArticles[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: ArticleCard(
-                      article: article,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => ArticleReaderScreen(article: article),
+              child: RefreshIndicator(
+                color: AppColors.primary,
+                onRefresh: () => appState.refreshArticles(force: true),
+                child: filteredArticles.isEmpty
+                    ? Center(
+                        child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(32.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.search_off_rounded, size: 64, color: AppColors.textTertiary),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'No articles found',
+                                  style: GoogleFonts.fraunces(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Try adjusting your search query or selecting a different category filter.',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.figtree(
+                                    fontSize: 14,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        );
-                      },
-                    ),
-                  );
-                },
+                        ),
+                      )
+                    : ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        itemCount: filteredArticles.length,
+                        itemBuilder: (context, index) {
+                          final article = filteredArticles[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: ArticleCard(
+                              article: article,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ArticleReaderScreen(article: article),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
               ),
             ),
           ],

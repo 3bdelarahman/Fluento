@@ -281,7 +281,7 @@ Current test coverage verifies:
 
 - [x] **Phase 0 — Stability & Crash Elimination:** Resolved dynamic `fontSize` type mismatches in `app_theme.dart`. Added comprehensive widget tests.
 - [x] **Phase 1 — Local Persistence:** Integration of `shared_preferences` for settings and local Drift database for sessions, article progress, reading results, weak-points history, vocabulary bank, writing submissions, and spaced-repetition schedules. Repository layer with split providers (`ProfileProvider`, `ProgressProvider`, `VocabularyProvider`). Dynamically computed dashboard metrics.
-- [ ] **Phase 2 — Auto-updating Articles:** `ArticleSource` multi-source architecture (VOA Learning English, Wikipedia, NASA, The Conversation, Global Voices, Guardian, RemoteJsonArticleSource), text cleaner, CEFR difficulty estimator, seed articles, offline Drift cache, and GitHub Actions publishing pipeline.
+- [x] **Phase 2 — Auto-updating Articles:** `ArticleSource` multi-source architecture (VOA Learning English, Wikipedia, NASA, The Conversation, Global Voices, Guardian, RemoteJsonArticleSource), text cleaner, CEFR difficulty estimator, seed articles, offline Drift cache, and GitHub Actions publishing pipeline.
 - [ ] **Phase 3 — Real Speech Analysis:** `SpeechAnalyzer` abstraction with continuous speech-to-text, word-level edit-distance alignment, WPM/fluency calculations, CEFR-adaptive severity, and real interactive repair loop.
 - [ ] **Phase 4 — Vocabulary & TTS:** Free dictionary API lookup, Egyptian Arabic sentence translations, and `TtsService` with dynamic speed controls and target word emphasis.
 - [ ] **Phase 5 — Spaced Repetition (SRS):** SM-2 review scheduler, Home Daily Review card, streak tracking, and local reminders.

@@ -9,10 +9,15 @@ import 'package:fluento/repositories/settings_repository.dart';
 import 'package:fluento/repositories/vocabulary_repository.dart';
 import 'package:fluento/repositories/progress_repository.dart';
 
+import 'package:fluento/models/article.dart';
+import 'package:fluento/repositories/article_repository.dart';
+import 'package:fluento/data/sample_articles.dart';
+
 class AppState extends ChangeNotifier {
   final SettingsRepository _settingsRepo;
   final VocabularyRepository _vocabRepo;
   final ProgressRepository _progressRepo;
+  final ArticleRepository _articleRepo;
 
   bool _isInitialized = false;
 
@@ -33,6 +38,8 @@ class AppState extends ChangeNotifier {
   );
 
   List<VocabularyWord> vocabularyWords = List.from(sampleVocabulary);
+  List<Article> articles = List.from(sampleArticles);
+  bool isLoadingArticles = false;
   int currentArticleIndex = 0;
   String currentScreen = 'onboarding';
 
@@ -40,16 +47,19 @@ class AppState extends ChangeNotifier {
     SettingsRepository? settingsRepo,
     VocabularyRepository? vocabRepo,
     ProgressRepository? progressRepo,
+    ArticleRepository? articleRepo,
     bool autoInit = true,
   })  : _settingsRepo = settingsRepo ?? SharedPrefsSettingsRepository(),
         _vocabRepo = vocabRepo ?? SqliteVocabularyRepository(),
-        _progressRepo = progressRepo ?? SqliteProgressRepository() {
+        _progressRepo = progressRepo ?? SqliteProgressRepository(),
+        _articleRepo = articleRepo ?? SqliteArticleRepository() {
     if (autoInit) {
       init();
     }
   }
 
   bool get isInitialized => _isInitialized;
+  ArticleRepository get articleRepository => _articleRepo;
 
   /// Loads persisted settings and SQLite databases on startup
   Future<void> init() async {
@@ -71,12 +81,61 @@ class AppState extends ChangeNotifier {
       // 3. Load dynamic stats from progress repository
       userProfile = await _progressRepo.getUserStats(userName, currentLevel, learningGoals);
 
+      // 4. Load persisted articles and check auto-refresh threshold (> 12h)
+      await _loadPersistedArticles();
+      _articleRepo.refreshArticles(force: false).then((_) => _loadPersistedArticles());
+
       _isInitialized = true;
       notifyListeners();
     } catch (_) {
       // Graceful fallback to initial defaults if running in restricted environments
       _isInitialized = true;
     }
+  }
+
+  Future<void> _loadPersistedArticles() async {
+    try {
+      final loaded = await _articleRepo.getArticles();
+      if (loaded.isNotEmpty) {
+        articles = loaded;
+        notifyListeners();
+      }
+    } catch (_) {}
+  }
+
+  Future<void> loadArticles({
+    String? category,
+    CefrLevel? level,
+    String? searchQuery,
+  }) async {
+    isLoadingArticles = true;
+    notifyListeners();
+    try {
+      final results = await _articleRepo.getArticles(
+        category: category,
+        level: level,
+        searchQuery: searchQuery,
+      );
+      if (results.isNotEmpty) {
+        articles = results;
+      }
+    } catch (_) {}
+    isLoadingArticles = false;
+    notifyListeners();
+  }
+
+  Future<void> refreshArticles({bool force = true}) async {
+    isLoadingArticles = true;
+    notifyListeners();
+    try {
+      await _articleRepo.refreshArticles(force: force);
+      final loaded = await _articleRepo.getArticles();
+      if (loaded.isNotEmpty) {
+        articles = loaded;
+      }
+    } catch (_) {}
+    isLoadingArticles = false;
+    notifyListeners();
   }
 
   Future<void> completeOnboarding() async {

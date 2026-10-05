@@ -76,6 +76,25 @@ class ArticleCard extends StatelessWidget {
                     const SizedBox(height: 16),
                     Row(
                       children: [
+                        if (article?.isNew == true) ...[
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFE9B949),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: const Text(
+                              'NEW',
+                              style: TextStyle(
+                                fontFamily: 'Figtree',
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                        ],
                         LevelBadge(level: l),
                         const SizedBox(width: 12),
                         const Icon(Icons.access_time_rounded, size: 16, color: Color(0xFF6B7280)),

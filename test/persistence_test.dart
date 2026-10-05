@@ -10,6 +10,7 @@ import 'package:fluento/providers/profile_provider.dart';
 import 'package:fluento/providers/vocabulary_provider.dart';
 import 'package:fluento/providers/progress_provider.dart';
 import 'package:fluento/providers/app_state.dart';
+import 'package:fluento/repositories/article_repository.dart';
 
 void main() {
   group('Phase 1 — Persistence Tests', () {
@@ -207,6 +208,7 @@ void main() {
         settingsRepo: settingsRepo,
         vocabRepo: vocabRepo,
         progressRepo: progressRepo,
+        articleRepo: MockArticleRepository(),
         autoInit: false,
       );
 

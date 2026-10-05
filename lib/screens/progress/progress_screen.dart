@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:fluento/models/cefr_level.dart';
 import 'package:fluento/theme/app_colors.dart';
 import 'package:fluento/providers/app_state.dart';
 import 'package:fluento/screens/progress/ai_level_screen.dart';
@@ -76,7 +77,9 @@ class ProgressScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Progress toward C1',
+                          user.level.index < CefrLevel.values.length - 1
+                              ? 'Progress toward ${CefrLevel.values[user.level.index + 1].name.toUpperCase()}'
+                              : 'Mastery Level Achieved',
                           style: GoogleFonts.fraunces(
                             color: Colors.white,
                             fontSize: 20,
@@ -87,8 +90,8 @@ class ProgressScreen extends StatelessWidget {
                         LinearPercentIndicator(
                           padding: EdgeInsets.zero,
                           lineHeight: 8.0,
-                          percent: 0.65,
-                          backgroundColor: Colors.white.withOpacity(0.2),
+                          percent: ((user.articlesCompleted % 10) / 10.0).clamp(0.1, 1.0),
+                          backgroundColor: Colors.white.withValues(alpha: 0.2),
                           progressColor: AppColors.accent,
                           barRadius: const Radius.circular(4),
                         ),
@@ -125,15 +128,15 @@ class ProgressScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  _buildSkillBar('Reading', 0.78),
+                  _buildSkillBar('Reading', (user.articlesCompleted > 0 ? (user.articlesCompleted / 15.0).clamp(0.05, 1.0) : 0.0)),
                   const SizedBox(height: 12),
-                  _buildSkillBar('Pronunciation', 0.71),
+                  _buildSkillBar('Pronunciation', user.pronunciationAccuracy.clamp(0.0, 1.0)),
                   const SizedBox(height: 12),
-                  _buildSkillBar('Fluency', 0.68),
+                  _buildSkillBar('Fluency', (user.readingMinutes > 0 ? (user.readingMinutes / 120.0).clamp(0.05, 1.0) : 0.0)),
                   const SizedBox(height: 12),
-                  _buildSkillBar('Vocabulary', 0.74),
+                  _buildSkillBar('Vocabulary', (user.wordsLearned > 0 ? (user.wordsLearned / 100.0).clamp(0.05, 1.0) : 0.0)),
                   const SizedBox(height: 12),
-                  _buildSkillBar('Writing', 0.65),
+                  _buildSkillBar('Writing', (user.writingTasksCompleted > 0 ? (user.writingTasksCompleted / 10.0).clamp(0.05, 1.0) : 0.0)),
                 ],
               ),
             ),
@@ -202,11 +205,11 @@ class ProgressScreen extends StatelessWidget {
               crossAxisSpacing: 16,
               childAspectRatio: 1.5,
               children: [
-                _buildStatCard('Articles', '4', Icons.article),
-                _buildStatCard('Reading Time', '31m', Icons.timer),
-                _buildStatCard('New Words', '42', Icons.menu_book),
-                _buildStatCard('Pronunciation', '18', Icons.record_voice_over),
-                _buildStatCard('Writing Tasks', '3', Icons.edit),
+                _buildStatCard('Articles', '${user.articlesCompleted}', Icons.article),
+                _buildStatCard('Reading Time', '${user.readingMinutes}m', Icons.timer),
+                _buildStatCard('New Words', '${user.wordsLearned}', Icons.menu_book),
+                _buildStatCard('Pronunciation', '${(user.pronunciationAccuracy * 100).round()}%', Icons.record_voice_over),
+                _buildStatCard('Writing Tasks', '${user.writingTasksCompleted}', Icons.edit),
               ],
             ),
             const SizedBox(height: 40),

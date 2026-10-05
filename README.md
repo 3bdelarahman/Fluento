@@ -280,13 +280,14 @@ Current test coverage verifies:
 ## 🗺️ Engineering Roadmap
 
 - [x] **Phase 0 — Stability & Crash Elimination:** Resolved dynamic `fontSize` type mismatches in `app_theme.dart`. Added comprehensive widget tests.
-- [ ] **Phase 1 — Local Persistence:** Integration of `shared_preferences` for settings and local SQLite/Drift database for reading history, vocabulary bank, and writing submissions. Split monolithic state into modular providers.
-- [ ] **Phase 2 — Live Speech-to-Text Analysis:** Implementation of `SpeechAnalyzer` abstraction with on-device `speech_to_text`, text alignment, and WPM/accuracy calculators with privacy notices.
-- [ ] **Phase 3 — LLM Writing Assessment:** Integration of `WritingFeedbackService` with structured JSON output and Egyptian Arabic explanations.
-- [ ] **Phase 4 — Spaced Repetition System (SRS):** SM-2 review scheduler for weak-point sentences and vocabulary words with home dashboard daily review cards.
-- [ ] **Phase 5 — Reader Ergonomics & Placement Test:** Tap-to-define in article reader, quick 2-minute placement quiz, and local daily notification reminders.
-- [ ] **Phase 6 — Cloud Sync & Neural TTS:** Offline article caching repository and multi-provider neural audio synthesis abstraction.
-- [ ] **Phase 7 — Global Localization:** Full Arabic and English dual-locale support (`flutter_localizations` with `.arb` catalogs).
+- [x] **Phase 1 — Local Persistence:** Integration of `shared_preferences` for settings and local Drift database for sessions, article progress, reading results, weak-points history, vocabulary bank, writing submissions, and spaced-repetition schedules. Repository layer with split providers (`ProfileProvider`, `ProgressProvider`, `VocabularyProvider`). Dynamically computed dashboard metrics.
+- [ ] **Phase 2 — Auto-updating Articles:** `ArticleSource` multi-source architecture (VOA Learning English, Wikipedia, NASA, The Conversation, Global Voices, Guardian, RemoteJsonArticleSource), text cleaner, CEFR difficulty estimator, seed articles, offline Drift cache, and GitHub Actions publishing pipeline.
+- [ ] **Phase 3 — Real Speech Analysis:** `SpeechAnalyzer` abstraction with continuous speech-to-text, word-level edit-distance alignment, WPM/fluency calculations, CEFR-adaptive severity, and real interactive repair loop.
+- [ ] **Phase 4 — Vocabulary & TTS:** Free dictionary API lookup, Egyptian Arabic sentence translations, and `TtsService` with dynamic speed controls and target word emphasis.
+- [ ] **Phase 5 — Spaced Repetition (SRS):** SM-2 review scheduler, Home Daily Review card, streak tracking, and local reminders.
+- [ ] **Phase 6 — Writing Practice:** `WritingFeedbackService` with local rule-based validator and optional LLM proxy service for structured CEFR writing feedback.
+- [ ] **Phase 7 — Placement & Polish:** Interactive CEFR placement test, RTL/accessibility improvements, and Arabic/English `.arb` localizations.
+- [ ] **Phase 8 — Final Cleanup & Verification:** Migration of mock data to test fixtures, full widget test suite, and final documentation.
 
 ---
 

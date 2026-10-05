@@ -16,6 +16,12 @@ abstract class SettingsRepository {
 
   Future<String> getUserName();
   Future<void> setUserName(String name);
+
+  Future<double> getTtsSpeed();
+  Future<void> setTtsSpeed(double speed);
+
+  Future<int> getLastArticlesRefresh();
+  Future<void> setLastArticlesRefresh(int timestamp);
 }
 
 class SharedPrefsSettingsRepository implements SettingsRepository {
@@ -24,6 +30,8 @@ class SharedPrefsSettingsRepository implements SettingsRepository {
   static const _keyCefrLevel = 'fluento_cefr_level';
   static const _keyLearningGoals = 'fluento_learning_goals';
   static const _keyUserName = 'fluento_user_name';
+  static const _keyTtsSpeed = 'fluento_tts_speed';
+  static const _keyLastArticlesRefresh = 'fluento_last_articles_refresh';
 
   SharedPreferences? _prefs;
 
@@ -96,6 +104,30 @@ class SharedPrefsSettingsRepository implements SettingsRepository {
     final prefs = await _getPrefs();
     await prefs.setString(_keyUserName, name);
   }
+
+  @override
+  Future<double> getTtsSpeed() async {
+    final prefs = await _getPrefs();
+    return prefs.getDouble(_keyTtsSpeed) ?? 1.0;
+  }
+
+  @override
+  Future<void> setTtsSpeed(double speed) async {
+    final prefs = await _getPrefs();
+    await prefs.setDouble(_keyTtsSpeed, speed);
+  }
+
+  @override
+  Future<int> getLastArticlesRefresh() async {
+    final prefs = await _getPrefs();
+    return prefs.getInt(_keyLastArticlesRefresh) ?? 0;
+  }
+
+  @override
+  Future<void> setLastArticlesRefresh(int timestamp) async {
+    final prefs = await _getPrefs();
+    await prefs.setInt(_keyLastArticlesRefresh, timestamp);
+  }
 }
 
 class MockSettingsRepository implements SettingsRepository {
@@ -104,18 +136,18 @@ class MockSettingsRepository implements SettingsRepository {
   CefrLevel _cefrLevel;
   List<String> _goals;
   String _name;
+  double _ttsSpeed;
+  int _lastRefresh;
 
   MockSettingsRepository({
-    bool onboardingCompleted = false,
-    bool darkMode = false,
-    CefrLevel cefrLevel = CefrLevel.b1,
+    this._onboardingCompleted = false,
+    this._darkMode = false,
+    this._cefrLevel = CefrLevel.b1,
     List<String>? goals,
-    String name = 'Abdelrahman',
-  })  : _onboardingCompleted = onboardingCompleted,
-        _darkMode = darkMode,
-        _cefrLevel = cefrLevel,
-        _goals = goals ?? ['Speaking', 'Pronunciation'],
-        _name = name;
+    this._name = 'Abdelrahman',
+    this._ttsSpeed = 1.0,
+    this._lastRefresh = 0,
+  }) : _goals = goals ?? ['Speaking', 'Pronunciation'];
 
   @override
   Future<bool> isOnboardingCompleted() async => _onboardingCompleted;
@@ -146,4 +178,16 @@ class MockSettingsRepository implements SettingsRepository {
 
   @override
   Future<void> setUserName(String name) async => _name = name;
+
+  @override
+  Future<double> getTtsSpeed() async => _ttsSpeed;
+
+  @override
+  Future<void> setTtsSpeed(double speed) async => _ttsSpeed = speed;
+
+  @override
+  Future<int> getLastArticlesRefresh() async => _lastRefresh;
+
+  @override
+  Future<void> setLastArticlesRefresh(int timestamp) async => _lastRefresh = timestamp;
 }

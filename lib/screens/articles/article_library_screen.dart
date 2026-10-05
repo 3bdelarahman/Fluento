@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:fluento/models/cefr_level.dart';
-import 'package:fluento/models/article.dart';
 import 'package:fluento/theme/app_colors.dart';
 import 'package:fluento/widgets/article_card.dart';
 import 'package:fluento/data/sample_articles.dart';
